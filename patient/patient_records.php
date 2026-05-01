@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config.php';
+include '../config.php';
 
 // Assuming the logged-in patient's ID is stored in the session
 $patient_id = $_SESSION['user_id']; 

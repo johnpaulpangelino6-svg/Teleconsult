@@ -1,9 +1,9 @@
 <?php
 session_start();
-include 'config.php';
+include '../config.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'doctor') {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 
@@ -29,11 +29,11 @@ $result = $conn->query("
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/doctor_prescriptions.css">
+    <link rel="stylesheet" href="../assets/css/doctor_prescriptions.css">
 </head>
 <body>
 
-<?php include 'includes/doctor_sidebar.php'; ?>
+<?php include '../includes/doctor_sidebar.php'; ?>
 
 <!-- MAIN -->
 <main class="main">

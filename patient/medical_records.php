@@ -1,19 +1,40 @@
 <?php
 session_start();
-include 'config.php';
+include '../config.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 
-// Only allow patients
 $user_id    = $_SESSION['user_id'];
 $role       = $_SESSION['role'];
 $user_name  = $_SESSION['user_name'] ?? 'User';
 $user_photo = !empty($_SESSION['user_photo'])
     ? $_SESSION['user_photo']
     : "https://ui-avatars.com/api/?name=" . urlencode($user_name) . "&background=random&color=fff";
+
+// Determine target patient ID
+$target_patient_id = $user_id; // Default to self
+if ($role === 'doctor' && isset($_GET['patient_id'])) {
+    $target_patient_id = (int)$_GET['patient_id'];
+}
+
+// Fetch target user info if viewing someone else
+$target_name = $user_name;
+$target_photo = $user_photo;
+if ($target_patient_id !== $user_id) {
+    $t_stmt = $conn->prepare("SELECT name, photo FROM users WHERE id = ?");
+    $t_stmt->bind_param("i", $target_patient_id);
+    $t_stmt->execute();
+    $t_res = $t_stmt->get_result()->fetch_assoc();
+    if ($t_res) {
+        $target_name = $t_res['name'];
+        $target_photo = !empty($t_res['photo']) 
+            ? "../uploads/" . $t_res['photo'] 
+            : "https://ui-avatars.com/api/?name=" . urlencode($target_name) . "&background=random&color=fff";
+    }
+}
 
 $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'prescriptions';
 
@@ -25,7 +46,7 @@ $history_stmt = $conn->prepare("
     WHERE mr.patient_id = ?
     ORDER BY mr.created_at DESC
 ");
-$history_stmt->bind_param("i", $user_id);
+$history_stmt->bind_param("i", $target_patient_id);
 $history_stmt->execute();
 $history_result = $history_stmt->get_result();
 
@@ -37,7 +58,7 @@ $presc_stmt = $conn->prepare("
     WHERE p.patient_id = ?
     ORDER BY p.created_at DESC
 ");
-$presc_stmt->bind_param("i", $user_id);
+$presc_stmt->bind_param("i", $target_patient_id);
 $presc_stmt->execute();
 $presc_result = $presc_stmt->get_result();
 ?>
@@ -48,24 +69,30 @@ $presc_result = $presc_stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Records - Community Teleconsult</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/medical_records.css">
+    <link rel="stylesheet" href="../assets/css/medical_records.css">
 </head>
 <body>
 
-<?php include 'includes/patient_sidebar.php'; ?>
+<?php 
+if ($_SESSION['role'] === 'doctor') {
+    include '../includes/doctor_sidebar.php';
+} else {
+    include '../includes/patient_sidebar.php';
+}
+?>
 
 <!-- ═══════════════ MAIN ═══════════════ -->
 <div class="main">
     <div class="page-header">
         <div>
-            <h1>Medical Records</h1>
-            <p>Your personal clinical history and prescriptions</p>
+            <h1>Medical Records: <?php echo htmlspecialchars($target_name); ?></h1>
+            <p><?php echo ($target_patient_id === $user_id) ? "Your personal clinical history and prescriptions" : "Clinical history and prescriptions for " . htmlspecialchars($target_name); ?></p>
         </div>
         <div class="top-user">
-            <img src="<?php echo htmlspecialchars($user_photo); ?>" alt="avatar">
+            <img src="<?php echo htmlspecialchars($target_photo); ?>" alt="avatar">
             <div>
-                <div class="tname"><?php echo htmlspecialchars($user_name); ?></div>
-                <div class="trole"><?php echo ucfirst($role); ?></div>
+                <div class="tname"><?php echo htmlspecialchars($target_name); ?></div>
+                <div class="trole">Patient</div>
             </div>
         </div>
     </div>

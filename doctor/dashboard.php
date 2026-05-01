@@ -1,9 +1,9 @@
 <?php
 session_start();
-include 'config.php';
+include '../config.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'doctor') {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 
@@ -20,7 +20,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     } elseif ($action === 'reject') {
         $conn->query("UPDATE appointments SET status='Rejected' WHERE id=$id AND doctor_id=$doctor_id");
     }
-    header("Location: doctor_dashboard.php");
+    header("Location: dashboard.php");
     exit();
 }
 
@@ -48,11 +48,11 @@ $appointments = $conn->query("
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/doctor_dashboard.css">
+    <link rel="stylesheet" href="../assets/css/doctor_dashboard.css">
 </head>
 <body>
 
-<?php include 'includes/doctor_sidebar.php'; ?>
+<?php include '../includes/doctor_sidebar.php'; ?>
 
 <!-- MAIN CONTENT -->
 <main class="main">
@@ -149,7 +149,7 @@ $appointments = $conn->query("
                                         <i class="fas fa-times"></i> Reject
                                     </a>
                                 <?php endif; ?>
-                                <a href="doctor_chat.php?contact_id=<?php echo $row['patient_id']; ?>" class="btn btn-chat">
+                                <a href="chat.php?contact_id=<?php echo $row['patient_id']; ?>" class="btn btn-chat">
                                     <i class="far fa-comment-dots"></i> Chat
                                 </a>
                             </div>

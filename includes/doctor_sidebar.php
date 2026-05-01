@@ -21,12 +21,12 @@ $sb_doctor_photo = !empty($_SESSION['user_photo']) ? $_SESSION['user_photo'] : "
         </div>
     </div>
 
-    <a href="doctor_dashboard.php" class="nav-link <?php echo $current_page == 'doctor_dashboard.php' ? 'active' : ''; ?>"><i class="fas fa-th-large"></i> Dashboard</a>
-    <a href="doctor_chat.php"      class="nav-link <?php echo $current_page == 'doctor_chat.php' ? 'active' : ''; ?>"><i class="far fa-comment-dots"></i> Messages</a>
-    <a href="#"                    class="nav-link"><i class="fas fa-users"></i> Patients</a>
-    <a href="doctor_prescriptions.php" class="nav-link <?php echo $current_page == 'doctor_prescriptions.php' ? 'active' : ''; ?>"><i class="fas fa-file-prescription"></i> Prescriptions</a>
+    <a href="dashboard.php"        class="nav-link <?php echo $current_page == 'dashboard.php' ? 'active' : ''; ?>"><i class="fas fa-th-large"></i> Dashboard</a>
+    <a href="chat.php"             class="nav-link <?php echo $current_page == 'chat.php' ? 'active' : ''; ?>"><i class="far fa-comment-dots"></i> Messages</a>
+    <a href="manage_patients.php"  class="nav-link <?php echo $current_page == 'manage_patients.php' ? 'active' : ''; ?>"><i class="fas fa-users"></i> Patients</a>
+    <a href="prescriptions.php"    class="nav-link <?php echo $current_page == 'prescriptions.php' ? 'active' : ''; ?>"><i class="fas fa-file-prescription"></i> Prescriptions</a>
     <a href="manage_calendar.php"  class="nav-link <?php echo $current_page == 'manage_calendar.php' ? 'active' : ''; ?>"><i class="far fa-calendar-alt"></i> Manage Calendar</a>
 
     <div class="sidebar-spacer"></div>
-    <a href="login.php" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <a href="../login.php" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </aside>

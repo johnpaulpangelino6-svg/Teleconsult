@@ -1,10 +1,10 @@
 <?php
 session_start();
-include 'config.php';
+include '../config.php';
 
 // Check if doctor is logged in
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'doctor') {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         // Redirect back to the dashboard or list with a success message
-        header("Location: doctor_prescriptions.php?success=1");
+        header("Location: prescriptions.php?success=1");
         exit();
     } else {
         echo "Error: " . $stmt->error;
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Prescription - Community Teleconsult</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/new_prescription.css">
+    <link rel="stylesheet" href="../assets/css/new_prescription.css">
 </head>
 <body>
 
@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="actions">
                     <button type="submit" class="btn-submit">Create Prescription</button>
-                    <a href="doctor_prescriptions.php" class="cancel-link">Cancel</a>
+                    <a href="prescriptions.php" class="cancel-link">Cancel</a>
                 </div>
             </form>
         </div>

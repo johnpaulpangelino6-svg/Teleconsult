@@ -1,6 +1,6 @@
 <?php
 // Run this once to create the new tables
-include 'config.php';
+include '../config.php';
 
 $sqls = [
     "CREATE TABLE IF NOT EXISTS doctor_settings (

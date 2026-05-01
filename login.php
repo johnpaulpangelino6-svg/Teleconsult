@@ -38,11 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // REDIRECT BASED ON ROLE
             if ($user['role'] === "patient") {
-                header("Location: user_dashboard.php");
+                header("Location: patient/dashboard.php");
                 exit();
             } 
             elseif ($user['role'] === "doctor") {
-                header("Location: doctor_dashboard.php");
+                header("Location: doctor/dashboard.php");
                 exit();
             } 
             elseif ($user['role'] === "admin") {

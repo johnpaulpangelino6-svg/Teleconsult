@@ -1,13 +1,13 @@
 <?php
 session_start();
-include 'config.php';
+include '../config.php';
 
-if (!isset($_SESSION['patient_id'])) {
-    header("Location: login.php");
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login.php");
     exit();
 }
 
-$id = $_SESSION['patient_id'];
+$id = $_SESSION['user_id'];
 
 /* =========================
    FETCH USER DATA (FIXED)
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // IMAGE UPLOAD
     if (!empty($_FILES['photo']['name'])) {
 
-        $targetDir = "uploads/";
+        $targetDir = "../uploads/";
 
         // create folder if not exists
         if (!is_dir($targetDir)) {
@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
 <title>My Profile</title>
 
-<link rel="stylesheet" href="assets/css/profile.css">
+<link rel="stylesheet" href="../assets/css/profile.css">
 
 </head>
 <body>
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- PROFILE IMAGE (FIXED) -->
     <?php if ($user && !empty($user['photo'])) { ?>
-        <img src="uploads/<?php echo $user['photo']; ?>">
+        <img src="../uploads/<?php echo $user['photo']; ?>">
     <?php } else { ?>
         <img src="https://via.placeholder.com/120">
     <?php } ?>
@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
     <div class="back">
-        <a href="user_dashboard.php">⬅ Back to Dashboard</a>
+        <a href="dashboard.php">⬅ Back to Dashboard</a>
     </div>
 
 </div>
